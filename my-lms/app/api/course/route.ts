@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 
 
 
-export async function POST(req:Request)
+export async function POST(req:Request,params:{params:string})
 {
   try {
     const{userId}=auth();
@@ -13,15 +13,13 @@ export async function POST(req:Request)
     {
         return new NextResponse('Unauthorized',{status:401})
     }
-
+    console.log('params',params)
+  
     const course=await db.course.create({
-        data:{
-            userId,
-            title
-        }
+        data:{userId, title }
     });
-    console.log("course save in POST",course);
-   return NextResponse.json(course)
+   // console.log("course save in POST",course);
+    return NextResponse.json(course)
 
 
   } 
