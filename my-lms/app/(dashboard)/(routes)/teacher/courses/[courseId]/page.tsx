@@ -7,6 +7,7 @@ import { type } from "os"
 import TitleForm from "./_component/title_form"
 import DescriptionForm from "./_component/description_form"
 import ImageForm from "./_component/image-form"
+import CategoryForm from "./_component/category_form"
 
 type course_page_params={
     params:{
@@ -80,6 +81,10 @@ const completionText=`(${completedField} / ${totalFields})`
                         <TitleForm initialData={course}  courseId={course.id}/>
                         <DescriptionForm initialData={course}  courseId={course.id}/>
                         <ImageForm initialData={course}  courseId={course.id}/>
+                        <CategoryForm initialData={course}  courseId={course.id} options={categories.map((category)=>({
+                          label:category.name,
+                          value:category.id
+                        }))} />
                </div>
            </div>
 
