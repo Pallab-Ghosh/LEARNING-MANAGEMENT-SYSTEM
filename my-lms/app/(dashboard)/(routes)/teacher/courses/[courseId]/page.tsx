@@ -5,6 +5,8 @@ import { LayoutDashboard } from "lucide-react"
 import { redirect } from "next/navigation"
 import { type } from "os"
 import TitleForm from "./_component/title_form"
+import DescriptionForm from "./_component/description_form"
+import ImageForm from "./_component/image-form"
 
 type course_page_params={
     params:{
@@ -15,7 +17,7 @@ type course_page_params={
 const Coursepage = async({params}:course_page_params) => {
   // console.log(params)
   const {userId}=auth();
-   
+    
   if(!userId)
   {
     return redirect('/')
@@ -24,6 +26,18 @@ const Coursepage = async({params}:course_page_params) => {
  const course=await db.course.findUnique({
     where :{id:params.courseId}
  })
+
+ const categories=await db.category.findMany({
+  orderBy:{
+   name:'asc'
+  }
+})
+
+if(categories) 
+{
+  console.log(categories);
+}
+
 
  if(!course)
  {
@@ -63,10 +77,9 @@ const completionText=`(${completedField} / ${totalFields})`
                                 Customize your course
                               </h2>
                         </div>
-                        <TitleForm
-                         initialData={course}
-                         courseId={course.id}
-                        />
+                        <TitleForm initialData={course}  courseId={course.id}/>
+                        <DescriptionForm initialData={course}  courseId={course.id}/>
+                        <ImageForm initialData={course}  courseId={course.id}/>
                </div>
            </div>
 
