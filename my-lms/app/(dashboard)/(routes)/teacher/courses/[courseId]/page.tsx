@@ -1,13 +1,14 @@
 import { IconBadge } from "@/components/icon-badge"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
-import { LayoutDashboard } from "lucide-react"
+import { IndianRupee, LayoutDashboard, ListChecks } from "lucide-react"
 import { redirect } from "next/navigation"
 import { type } from "os"
 import TitleForm from "./_component/title_form"
 import DescriptionForm from "./_component/description_form"
 import ImageForm from "./_component/image-form"
 import CategoryForm from "./_component/category_form"
+import PriceForm from "./_component/price_form"
 
 type course_page_params={
     params:{
@@ -74,7 +75,7 @@ const completionText=`(${completedField} / ${totalFields})`
                <div>
                         <div className="flex items-center gap-x-2">
                           <IconBadge icon={LayoutDashboard}  variant='default'/>
-                              <h2>
+                              <h2 className=" text-xl">
                                 Customize your course
                               </h2>
                         </div>
@@ -83,9 +84,34 @@ const completionText=`(${completedField} / ${totalFields})`
                         <ImageForm initialData={course}  courseId={course.id}/>
                         <CategoryForm initialData={course}  courseId={course.id} options={categories.map((category)=>({
                           label:category.name,
-                          value:category.id
-                        }))} />
+                          value:category.id }))} />
+                        
                </div>
+                <div className=" space-y-6">
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={ListChecks} />
+                             <h2 className="text-xl">
+                               Course Chapters
+                             </h2>
+                        </div>
+                        <div>
+                          Todo: Chapters
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={IndianRupee} />
+                             <h2 className="text-xl">
+                               Sell your Course
+                             </h2>
+                        </div>
+                       <PriceForm initialData={course}  courseId={course.id} />
+                    </div>
+
+
+                </div>
            </div>
 
       </div>
