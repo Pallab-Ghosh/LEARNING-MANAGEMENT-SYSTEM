@@ -56,7 +56,9 @@ const onSubmit=async(values:z.infer<typeof formSchema>)=>{
 
       try {
         await axios.patch(`/api/course/${courseId}`,values)
+      
         toast.success('Course Updated')
+        toggleEdit();
         window.location.reload();
       }
 
