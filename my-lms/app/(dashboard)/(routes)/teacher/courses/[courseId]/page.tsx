@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
-import { IndianRupee, LayoutDashboard, ListChecks } from "lucide-react"
+import { File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react"
 import { redirect } from "next/navigation"
 import { type } from "os"
 import TitleForm from "./_component/title_form"
@@ -9,6 +9,7 @@ import DescriptionForm from "./_component/description_form"
 import ImageForm from "./_component/image-form"
 import CategoryForm from "./_component/category_form"
 import PriceForm from "./_component/price_form"
+import AttachmentForm from "./_component/attachment-form"
 
 type course_page_params={
     params:{
@@ -26,7 +27,12 @@ const Coursepage = async({params}:course_page_params) => {
   }
 
  const course=await db.course.findUnique({
-    where :{id:params.courseId}
+    where :{id:params.courseId},
+    include:{
+      attachments:{
+        orderBy:{createdAt:'desc'}
+      }
+    },
  })
 
  const categories=await db.category.findMany({
@@ -108,6 +114,20 @@ const completionText=`(${completedField} / ${totalFields})`
                              </h2>
                         </div>
                        <PriceForm initialData={course}  courseId={course.id} />
+                    </div>
+                     
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={File} />
+                             <h2 className="text-xl">
+                              Resources & Attachments
+                             </h2>
+                        </div>
+                        <AttachmentForm 
+                        initialData={course}
+                         courseId={course.id}
+                         />
+                        
                     </div>
 
 
