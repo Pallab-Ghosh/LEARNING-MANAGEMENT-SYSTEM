@@ -34,16 +34,6 @@ const formSchema=z.object({
 const ImageForm = ({initialData,courseId}:ImageFormProps) => {
 
 const[isEditing,setEditting]=useState(false);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues:{
-      imageUrl:initialData.imageUrl || ""
-    }
-  })
-
-
-const {isSubmitting,isValid}=form.formState
 const router=useRouter()
 
 const onSubmit=async(values:z.infer<typeof formSchema>)=>{
