@@ -10,6 +10,7 @@ import ImageForm from "./_component/image-form"
 import CategoryForm from "./_component/category_form"
 import PriceForm from "./_component/price_form"
 import AttachmentForm from "./_component/attachment-form"
+import ChapterForm from "./_component/chapters_form"
 
 type course_page_params={
     params:{
@@ -27,8 +28,17 @@ const Coursepage = async({params}:course_page_params) => {
   }
 
  const course=await db.course.findUnique({
-    where :{id:params.courseId},
+    where :{
+      id:params.courseId,
+      userId
+    },
+
     include:{
+
+      chapters:{
+        orderBy:{createdAt:'asc'}
+      },
+
       attachments:{
         orderBy:{createdAt:'desc'}
       }
@@ -41,18 +51,14 @@ const Coursepage = async({params}:course_page_params) => {
   }
 })
 
-if(categories) 
-{
-  console.log(categories);
-}
-
+ 
 
  if(!course)
  {
   return redirect('/')
  }
 
-const requiredFields=[course.title,course.description,course.imageUrl,course.price,course.categoryId];
+const requiredFields=[course.title,course.description,course.imageUrl,course.price,course.categoryId,course.chapters.some((chapter)=>chapter.isPublished)];
 const totalFields=requiredFields.length;
 const completedField=requiredFields.filter(Boolean).length
 
@@ -101,9 +107,7 @@ const completionText=`(${completedField} / ${totalFields})`
                                Course Chapters
                              </h2>
                         </div>
-                        <div>
-                          Todo: Chapters
-                        </div>
+                        <ChapterForm initialData={course}  courseId={course.id}/>
                     </div>
 
                     <div>
