@@ -36,7 +36,7 @@ const Coursepage = async({params}:course_page_params) => {
     include:{
 
       chapters:{
-        orderBy:{createdAt:'asc'}
+        orderBy:{position:'asc'}
       },
 
       attachments:{
@@ -44,6 +44,22 @@ const Coursepage = async({params}:course_page_params) => {
       }
     },
  })
+
+ /* const chaptersInAscOrder = await db.course.findUnique({
+  where :{
+    id:params.courseId,
+  },
+
+  include:{
+    
+  chapters:{
+    orderBy:{position:'asc'}
+  }
+}
+
+});
+ */
+
 
  const categories=await db.category.findMany({
   orderBy:{
@@ -107,9 +123,12 @@ const completionText=`(${completedField} / ${totalFields})`
                                Course Chapters
                              </h2>
                         </div>
-                        <ChapterForm initialData={course}  courseId={course.id}/>
+                        <ChapterForm
+                           initialData={course}
+                           courseId={course.id}
+                            />
                     </div>
-
+ 
                     <div>
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={IndianRupee} />
