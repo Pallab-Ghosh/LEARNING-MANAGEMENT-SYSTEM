@@ -8,7 +8,7 @@ import {useForm} from 'react-hook-form'
 import {Form,FormControl,FormItem,FormField,FormMessage, FormLabel, FormDescription} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Pencil, Plus, PlusCircle } from 'lucide-react'
+import { Loader2, Pencil, Plus, PlusCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
@@ -23,6 +23,7 @@ import ChapterList from './chapters-list'
 type ChapterFormProps={
     initialData:Course & {chapters:Chapter[]}
     courseId:string
+    
 }
 
 
@@ -55,10 +56,10 @@ const onSubmit=async(values:z.infer<typeof formSchema>)=>{
  // console.log(values)
 
       try {
-        await axios.post(`/api/course/${courseId}/chapters`,values)
+       await axios.post(`/api/course/${courseId}/chapters`,values)
         toast.success('Chapter Updated')
         toggleCreating()
-        window.location.reload();
+       
       }
 
         catch (error) {
@@ -66,6 +67,27 @@ const onSubmit=async(values:z.infer<typeof formSchema>)=>{
         }
 }
 
+useEffect(()=>{
+  console.log('initialData.chapters from chapter_form',initialData.chapters)
+},[])
+
+const onReorder=async(updateData:{id:string,position:number}[])=>{
+   try
+    {
+      setUpDating(true);
+      await axios.put(`/api/course/${courseId}/chapters/reorder`,{
+        list:updateData
+      })
+      toast.success('Chapters reordered');
+      //window.location.reload();
+   }
+    catch (error) {
+    toast.error('Something went wrong');
+   }
+   finally{
+    setUpDating(false)
+   }
+}
 
 
 const toggleCreating=()=>{
@@ -73,7 +95,16 @@ const toggleCreating=()=>{
 }
 
   return (
-    <div className='mt-6 border bg-slate-100 rounded-md p-4'>
+    <div className=' relative mt-6 border bg-slate-100 rounded-md p-4'>
+      {
+        isUpdating && (
+          <div className=' absolute h-full w-full bg-slate-500/20 top-0 right-0
+           rounded-md flex items-center justify-center '
+          >
+            <Loader2 className='animate-spin h-6 w-6 text-sky-700' />
+          </div>
+        )
+      }
         <div className='font-medium flex items-center justify-between'>
           Course Chapter
           <Button onClick={toggleCreating}>
@@ -120,8 +151,10 @@ const toggleCreating=()=>{
             { !initialData.chapters.length && 'No Chapters'}
             <ChapterList
             onEdit={()=>{}}
-            onReorder={()=>{}}
+            onReorder={onReorder}
             items={initialData.chapters || []}
+            courseId={courseId}
+            
             />
           </div>
         )
