@@ -67,10 +67,7 @@ const onSubmit=async(values:z.infer<typeof formSchema>)=>{
         }
 }
 
-useEffect(()=>{
-  console.log('initialData.chapters from chapter_form',initialData.chapters)
-},[])
-
+ 
 const onReorder=async(updateData:{id:string,position:number}[])=>{
    try
     {
@@ -79,7 +76,7 @@ const onReorder=async(updateData:{id:string,position:number}[])=>{
         list:updateData
       })
       toast.success('Chapters reordered');
-      //window.location.reload();
+      window.location.reload();
    }
     catch (error) {
     toast.error('Something went wrong');
@@ -87,6 +84,10 @@ const onReorder=async(updateData:{id:string,position:number}[])=>{
    finally{
     setUpDating(false)
    }
+}
+
+const onEdit=(id:string)=>{
+ router.push(`/teacher/courses/${courseId}/chapters/${id}`)
 }
 
 
@@ -150,7 +151,7 @@ const toggleCreating=()=>{
           )}>
             { !initialData.chapters.length && 'No Chapters'}
             <ChapterList
-            onEdit={()=>{}}
+            onEdit={onEdit}
             onReorder={onReorder}
             items={initialData.chapters || []}
             courseId={courseId}
