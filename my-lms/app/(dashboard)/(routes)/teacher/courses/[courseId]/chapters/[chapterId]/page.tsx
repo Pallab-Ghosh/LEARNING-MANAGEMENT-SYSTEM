@@ -1,11 +1,14 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
-import { ArrowLeft, LayoutDashboard, LucideLayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, LucideLayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation"
 import { type } from 'os';
 import ChapterTitleForm from "./_components/chapter_title_form";
+import ChapterDescriptionForm from "./_components/chapter-description_form";
+import ChapterAccessForm from "./_components/chapter-access_form";
+import ChapterVideoForm from "./_components/chapter-video-form";
  
 
  
@@ -87,7 +90,40 @@ if(!userId)
                         chapterId={params.chapterId}
                         courseId={params.courseId}
                         />
+
+                        <ChapterDescriptionForm
+                         initialData={chapter}
+                         chapterId={params.chapterId}
+                         courseId={params.courseId}
+                        />
                     </div>
+                       <div>
+                           <div className="flex items-center gap-x-2">
+                               <IconBadge icon={Eye}/>
+                               <h2 className="text-xl">
+                                    Access Settings
+                               </h2>
+                           </div>
+                           <ChapterAccessForm
+                           initialData={chapter}
+                           courseId={params.courseId}
+                           chapterId={params.chapterId}
+                           />
+                       </div>
+               </div>
+
+               <div>
+                 <div className="flex items-center gap-x-2">
+                            <IconBadge icon={Video}  variant='default'/>
+                                <h2 className=" text-xl">
+                                  Add a Video
+                                </h2>
+                 </div>
+                 <ChapterVideoForm
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
+                  initialData={chapter}
+                 />
                </div>
         </div>
 
