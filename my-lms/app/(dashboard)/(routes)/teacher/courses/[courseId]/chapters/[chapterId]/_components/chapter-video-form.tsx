@@ -19,6 +19,7 @@ import Image from 'next/image'
 import { FileUpload } from '@/components/file-upload'
 import { cn } from '../../../../../../../../../lib/utils';
  
+import MuxPlayer from '@mux/mux-player-react'
 
 
 type ChapterVideoProps={
@@ -77,7 +78,9 @@ const toggleEdit=()=>{
                  </div>) :
                  (
                    <div className='relative aspect-video mt-2'>
-                      Video Uploaded
+                      <MuxPlayer
+                       playbackId={initialData?.muxData?.playbackId || ""}
+                      />
                     </div>
                  )
               )}
