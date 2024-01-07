@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
-import { ArrowLeft, Eye, LayoutDashboard, LucideLayoutDashboard, Video } from "lucide-react";
+import { AlertCircle, ArrowLeft, Eye, LayoutDashboard, LucideLayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation"
 import { type } from 'os';
@@ -54,6 +54,15 @@ if(!userId)
  const completionText=`(${completedFields}/${totalFields})`;
 
   return (
+    <>
+    {
+      !chapter.isPublished && (
+      <h2 className=" bg-yellow-200 h-12 flex items-center gap-x-1 text-gray-500">
+          <AlertCircle/>
+        <div>This course chapter is not published.It will not be visible in the course </div>
+        </h2>
+      )
+    }
     <div className=" p-6 ">
          <div className=" flex items-center justify-between">
             <div className="w-full">
@@ -128,6 +137,7 @@ if(!userId)
         </div>
 
     </div>
+    </>
   )
 }
 
