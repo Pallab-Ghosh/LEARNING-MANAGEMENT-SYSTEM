@@ -5,10 +5,10 @@ import { type } from "os";
 import Mux from '@mux/mux-node'
 
 
-const {Video}=new Mux(
-    process.env.MUX_TOKEN_ID!,
-    process.env.MUX_TOKEN_SECRET!
-);
+const muxTokenId = process.env.MUX_TOKEN_ID;
+const muxTokenSecret = process.env.MUX_TOKEN_SECRET;
+
+
 
 
 
@@ -19,16 +19,25 @@ type params_props={
     }
 }
 
-export async function PATCH(req:Request,{params}:params_props){
-    
+export async function PATCH(req:Request,{params}:params_props)
+{
+
     try 
     {
+
+        if (!muxTokenId || !muxTokenSecret) {
+            return new NextResponse('Internal Server Error: Mux API credentials not provided.', { status: 500 });
+        }
+        
+        const {Video}=new Mux( muxTokenId!,muxTokenSecret!);
+        
         const {userId}=auth();
         const {isPublished , ...values}=await req.json();
+         
 
 
     if(!userId)
-    return new NextResponse('Unauthorized',{status:401});
+    return new NextResponse('Unauthorized',{status:403});
 
     const courseOwner=await db.course.findUnique({
         where:{
@@ -37,31 +46,26 @@ export async function PATCH(req:Request,{params}:params_props){
         }
     })
 
-    if(!courseOwner)return new NextResponse('Unauthorized',{status:401})
+    if(!courseOwner)return new NextResponse('Unauthorized',{status:403})
 
       const chapter=await db.chapter.update({
-         where: {
-            id:params.chapterId,
-           courseId:params.courseid
-         },
+         where: { id:params.chapterId, courseId:params.courseid},
          data:{...values}
       })
 
       if(values.videoUrl)
       {
         const existingMuxData=await db.muxData.findFirst({
-            where:{
-                chapterId:params.chapterId
-            }
+             where:{ chapterId:params.chapterId }
         })
+ 
+        
 
         if(existingMuxData)
         {
            await Video.Assets.del(existingMuxData.assetId);
            await db.muxData.delete({
-            where:{
-                id:existingMuxData.id
-            }
+            where:{id:existingMuxData.id}
            })
         }
 
@@ -71,21 +75,23 @@ export async function PATCH(req:Request,{params}:params_props){
             test:false
         })
 
-        await db.muxData.create({
+       
+ 
+       const video= await db.muxData.create({
            data:{
             chapterId:params.chapterId,
             assetId:asset.id,
             playbackId:asset.playback_ids?.[0]?.id,
            }
         })
+        return  NextResponse.json(video)
       }
 
-      
-
-      return NextResponse.json(chapter)
+     
     } 
 
     catch (error) {
-        
+        console.log('[Chapter Video Error]',error)
+        return new NextResponse('Internal Error',{status:500})
     }
 }
