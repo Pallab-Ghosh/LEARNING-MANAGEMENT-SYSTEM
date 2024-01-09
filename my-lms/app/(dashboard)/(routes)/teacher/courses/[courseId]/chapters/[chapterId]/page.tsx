@@ -57,8 +57,8 @@ if(!userId)
     <>
     {
       !chapter.isPublished && (
-      <h2 className=" bg-yellow-200 h-12 flex items-center gap-x-1 text-gray-500">
-          <AlertCircle/>
+      <h2 className=" bg-yellow-200 h-12 flex items-center gap-x-1 text-slate-800">
+          <AlertCircle className='ml-3' />
         <div>This course chapter is not published.It will not be visible in the course </div>
         </h2>
       )
