@@ -23,6 +23,8 @@ export const ChapterAction=({disabled,courseId,chapterId,isPublished}:chapteract
 
     const[isLoading,setIsLoading]=useState(false)
     const router=useRouter()
+
+
    const onDelete= async()=>{
         try {
             setIsLoading(true);
@@ -37,23 +39,43 @@ export const ChapterAction=({disabled,courseId,chapterId,isPublished}:chapteract
             setIsLoading(false);
         }
    }
+
+  const onClick=async()=>{
+        try {
+                    setIsLoading(true);
+                    
+                    if(isPublished)
+                    {
+                        axios.patch(`/api/course/${courseId}/chapters/${chapterId}/unpublish`)
+                        toast.success('Chapter UnPublished');
+                    }
+
+                    else{
+                        axios.patch(`/api/course/${courseId}/chapters/${chapterId}/publish`)
+                        toast.success('Chapter Published');
+                    }
+            window.location.reload();
+        }
+         catch (error) {
+            toast.error('Something went wrong')
+        }
+        finally{
+            setIsLoading(false);
+        }
+   }
+  
+
     return(
         <div className=" flex items-center gap-x-2">
-            <Button onClick={()=>{}}
-            disabled={disabled}
-            variant='default'
-            size='sm'
-            >
-            
+            <Button onClick={onClick} disabled={isLoading || disabled} variant='default' size='sm' >
                 {
                     isPublished ? 'Unpublished':'Publish'
                 }
             </Button>
-        <ConfirmModal onConfirm={onDelete}>
-            <Button size='sm' disabled={isLoading}>
-                <Trash className='h-4 w-4' />
-            </Button>
-            </ConfirmModal>
+
+              <ConfirmModal onConfirm={onDelete}>
+                    <Button size='sm' disabled={isLoading}> <Trash className='h-4 w-4' /> </Button>
+                </ConfirmModal>
         </div>
     )
 }
