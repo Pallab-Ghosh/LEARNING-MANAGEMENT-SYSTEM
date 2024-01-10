@@ -53,7 +53,7 @@ if(!userId)
 
  const isComplete=requiredFields.every(Boolean);
 
-
+ 
 
  const completionText=`(${completedFields}/${totalFields})`;
 
@@ -86,7 +86,7 @@ if(!userId)
                         </span>
                    </div>
                    <ChapterAction
-                    disabled={isComplete}
+                    disabled={!isComplete}
                     courseId={params.courseId}
                     chapterId={params.chapterId}
                     isPublished={chapter.isPublished}
