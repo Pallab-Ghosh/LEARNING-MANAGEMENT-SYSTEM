@@ -9,6 +9,7 @@ import ChapterTitleForm from "./_components/chapter_title_form";
 import ChapterDescriptionForm from "./_components/chapter-description_form";
 import ChapterAccessForm from "./_components/chapter-access_form";
 import ChapterVideoForm from "./_components/chapter-video-form";
+import { ChapterAction } from "./_components/chapter-action";
  
 
  
@@ -50,6 +51,9 @@ if(!userId)
  const totalFields=requiredFields.length;
  const completedFields=requiredFields.filter(Boolean).length
 
+ const isComplete=requiredFields.every(Boolean);
+
+
 
  const completionText=`(${completedFields}/${totalFields})`;
 
@@ -81,6 +85,12 @@ if(!userId)
                         Complete all Fields {completionText}
                         </span>
                    </div>
+                   <ChapterAction
+                    disabled={isComplete}
+                    courseId={params.courseId}
+                    chapterId={params.chapterId}
+                    isPublished={chapter.isPublished}
+                   />
                </div>
             </div>
          </div>
