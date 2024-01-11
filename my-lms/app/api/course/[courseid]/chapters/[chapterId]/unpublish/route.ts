@@ -46,7 +46,7 @@ export async function PATCH(req:Request,{params}:params_props) {
 
       
 
-      if(publishedchapterincourse.length)
+      if(!publishedchapterincourse.length)
       {
          await db.course.update({
             where:{
