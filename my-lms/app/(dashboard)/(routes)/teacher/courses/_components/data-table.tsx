@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import {  Table,  TableBody,  TableCell,  TableHead,  TableHeader,  TableRow,} from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import React from "react"
+import Link from "next/link"
+import { PlusCircle } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -34,7 +36,7 @@ export function DataTable<TData, TValue>({  columns,  data,}: DataTableProps<TDa
    
   return (
     <div>
-       <div className="flex items-center py-4">
+       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Filter course..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -43,7 +45,17 @@ export function DataTable<TData, TValue>({  columns,  data,}: DataTableProps<TDa
           }
           className="max-w-sm"
         />
+
+        <div>
+            <Link href='/teacher/create'>  
+              <Button>
+              <PlusCircle className="h-4 w-4 mr-2"/>
+                New Courses 
+                </Button>
+            </Link>
+          </div>
       </div>
+
         <div className="rounded-md border">
           <Table>
             <TableHeader>
