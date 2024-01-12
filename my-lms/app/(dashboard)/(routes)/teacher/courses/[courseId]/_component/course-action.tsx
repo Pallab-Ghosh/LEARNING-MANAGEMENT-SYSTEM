@@ -2,6 +2,7 @@
 
 import { ConfirmModal } from "@/components/confirm-modal"
 import { Button } from "@/components/ui/button"
+import { useConfettiStore } from "@/hooks/use-confetti-store"
 import axios from "axios"
 import { Trash } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { type } from "os"
 import { useState } from "react"
 import toast from "react-hot-toast"
+
 
 
 type CourseActionProps={
@@ -22,8 +24,8 @@ export const CourseAction=({disabled,courseId,isPublished}:CourseActionProps)=>{
 
     const[isLoading,setIsLoading]=useState(false)
     const router=useRouter()
-
-
+    const confetti=useConfettiStore()
+   
    const onDelete= async()=>{
         try {
             setIsLoading(true);
@@ -45,16 +47,20 @@ export const CourseAction=({disabled,courseId,isPublished}:CourseActionProps)=>{
                     
                     if(isPublished)
                     {
-                        axios.patch(`/api/course/${courseId}/unpublish`)
+                       const datas=await axios.patch(`/api/course/${courseId}/unpublish`)
+                       console.log('datas.data',datas.data)
                         toast.success('Course UnPublished');
                     }
 
                     else{
-                        axios.patch(`/api/course/${courseId}/publish`)
+                        const datas=await axios.patch(`/api/course/${courseId}/publish`)
                         toast.success('Course Published');
+                        confetti.onOpen()
                     }
-            window.location.reload();
+                    router.refresh()
+          
         }
+
          catch (error) {
             toast.error('Something went wrong')
         }
@@ -65,6 +71,8 @@ export const CourseAction=({disabled,courseId,isPublished}:CourseActionProps)=>{
   
 
     return(
+      
+        
         <div className=" flex items-center gap-x-2">
             <Button onClick={onClick} disabled={isLoading || disabled} variant='default' size='sm' >
                 {
@@ -76,5 +84,6 @@ export const CourseAction=({disabled,courseId,isPublished}:CourseActionProps)=>{
                     <Button size='sm' disabled={isLoading}> <Trash className='h-4 w-4' /> </Button>
                 </ConfirmModal>
         </div>
+     
     )
 }
