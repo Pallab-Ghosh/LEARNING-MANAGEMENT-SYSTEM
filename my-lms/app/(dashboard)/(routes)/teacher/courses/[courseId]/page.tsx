@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs"
-import { File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react"
+import { AlertCircle, File, IndianRupee, LayoutDashboard, ListChecks } from "lucide-react"
 import { redirect } from "next/navigation"
 import { type } from "os"
 import TitleForm from "./_component/title_form"
@@ -11,6 +11,7 @@ import CategoryForm from "./_component/category_form"
 import PriceForm from "./_component/price_form"
 import AttachmentForm from "./_component/attachment-form"
 import ChapterForm from "./_component/chapters_form"
+import { CourseAction } from "./_component/course-action"
 
 type course_page_params={
     params:{
@@ -45,21 +46,7 @@ const Coursepage = async({params}:course_page_params) => {
     },
  })
 
- /* const chaptersInAscOrder = await db.course.findUnique({
-  where :{
-    id:params.courseId,
-  },
-
-  include:{
-    
-  chapters:{
-    orderBy:{position:'asc'}
-  }
-}
-
-});
- */
-
+ 
 
  const categories=await db.category.findMany({
   orderBy:{
@@ -78,14 +65,22 @@ const requiredFields=[course.title,course.description,course.imageUrl,course.pri
 const totalFields=requiredFields.length;
 const completedField=requiredFields.filter(Boolean).length
 
-/* console.log('totalFields',totalFields)
-console.log('completedField',completedField) */
+const isComplete=requiredFields.every(Boolean);
+
 
 const completionText=`(${completedField} / ${totalFields})`
 
-//console.log('completionText',completionText)
 
   return (
+    <>
+      {
+      !course.isPublished && (
+      <h2 className=" bg-yellow-200 h-12 flex items-center gap-x-1 text-slate-800">
+          <AlertCircle className='ml-3' />
+        <div>This course  is not published.It will not be visible to the students</div>
+        </h2>
+      )
+    }
     <div className="p-6">
          <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-y-2">
@@ -97,6 +92,11 @@ const completionText=`(${completedField} / ${totalFields})`
                           Complete all fields {completionText}
                         </span>
                 </div>
+                <CourseAction
+                disabled={!isComplete}
+                courseId={params.courseId}
+                isPublished={course.isPublished}
+                />
 
          </div>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
@@ -158,6 +158,7 @@ const completionText=`(${completedField} / ${totalFields})`
            </div>
 
       </div>
+      </>
   )
 }
 
