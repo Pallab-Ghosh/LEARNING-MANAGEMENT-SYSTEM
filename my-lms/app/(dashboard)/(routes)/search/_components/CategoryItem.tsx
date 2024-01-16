@@ -45,10 +45,10 @@ const CategoryItem = ({key,label,icon:Icon,value}:CategoryItemprops) => {
             cn('py-2 px-3 text-sm border border-slate-200 first-letter rounded-full flex items-center gap-x-1 hover:border-sky-700 transition', 
              isSelected && ' border-sky-700 bg-sky-200/20 text-sky-800'
             )}
-        type='button'
-        variant='ghost'
-        onClick={onClick}
-        >
+            type='button'
+            variant='ghost'
+            onClick={onClick}
+            >
             { Icon && <Icon size={20} /> }
             <div className=' truncate'>
                 {label}
