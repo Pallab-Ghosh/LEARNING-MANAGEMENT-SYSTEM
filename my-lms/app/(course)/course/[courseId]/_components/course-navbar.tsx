@@ -1,3 +1,4 @@
+import NavbarRoutes from "@/components/navbar-routes"
 import { Chapter, Course, UserProgress } from "@prisma/client"
 
 
@@ -10,9 +11,11 @@ type CourseNavbarProps={
     progressCount:number
 }
 
-const CourseNavbar = ({course,chapters}:CourseNavbarProps) => {
+const CourseNavbar = ({course,progressCount}:CourseNavbarProps) => {
   return (
-    <div>course-navbar</div>
+    <div>
+        <NavbarRoutes/>
+    </div>
   )
 }
 
