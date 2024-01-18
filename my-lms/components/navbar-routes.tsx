@@ -15,7 +15,7 @@ const NavbarRoutes = () => {
     const router=useRouter();
 
 const isTeacherPage=pathname?.startsWith('/teacher');
-const isPlayerPage=pathname?.startsWith('/chapter');
+const isPlayerPage=pathname?.startsWith('/course');
 const isSeacrhPage=pathname==='/search'
 
   return (
