@@ -58,7 +58,7 @@ import CourseNavbar from "./_components/course-navbar";
             />
         </div>
 
-        <main className=" md:pl-80 mt-32 h-full">
+        <main className=" md:pl-80  mt-20 h-full">
         {children}
         </main>
      </div>

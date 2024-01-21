@@ -32,14 +32,16 @@ export const getChapter=async({userId,courseId,chapterId}:GetChapterProps)=>{
 
          const chapter=await db.chapter.findUnique({
             where:{
-                id:courseId,
+                id:chapterId,
                 isPublished:true
             }
          })
+        
 
          if(!chapter || !course)
          {
-            throw new Error("Chapters ot Course not found")
+    
+            throw new Error("Chapters or Course not found")
          }
 
          let muxdata=null;
