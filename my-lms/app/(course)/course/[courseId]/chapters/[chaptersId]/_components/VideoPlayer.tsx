@@ -24,11 +24,12 @@ const VideoPlayer = ({ chaperId,
     completeOnEnd}:VideoPlayerProps) => {
 
         const[isready,setready]=useState(false)
+        console.log(playbackId)
   return (
     <div className=" relative aspect-video">
       {
         !isready && !isLocked && (
-            <div className=" absolute inset-0 flex items-center justify-center bg-slate-800">
+            <div className=" absolute inset-0 flex items-center justify-center bg-slate-400">
                <Loader2 className=" h-8 w-8 animate-spin text-secondary"/>
             </div>
         )
@@ -46,13 +47,14 @@ const VideoPlayer = ({ chaperId,
       }
 
       {
-        !isLocked && isready &&(
+        !isLocked &&(
             <MuxPlayer
              title={title}
              className={cn(!isready && "hidden")}
              onCanPlay={()=>setready(true)}
              onEnded={()=>{}}
-             autoPlay={playbackId}
+             autoPlay
+             playbackId={playbackId}
             />
         )
       }
