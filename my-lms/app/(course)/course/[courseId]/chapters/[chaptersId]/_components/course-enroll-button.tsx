@@ -10,7 +10,10 @@ import { IndianRupee, ShoppingBag } from "lucide-react"
 
 const  CourseEnrollButton = ({price,courseId}:CourseEnrollButtonProps) => {
   return (
-    <Button>
+    <Button
+    className=" w-full md:w-auto"
+    size="sm"
+    >
         
         <div>Enroll for {price}</div>
         <IndianRupee className="ml-1" size={18}/>
