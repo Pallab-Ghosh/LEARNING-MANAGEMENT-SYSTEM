@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { stripe } from "@/lib/stripe"
 import { currentUser } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 import Stripe from "stripe"
@@ -57,7 +58,43 @@ export async function POST(req:Request , {params}:params_props){
             }
         }
       ];
-      
+
+      let stripeCustomer=await db.stripeCustomer.findUnique({
+        where:{
+            userId:user.id
+        },
+        select:{
+            stripeCustomerId:true
+        }
+      })
+
+      if(!stripeCustomer)
+      {
+        const customer=await stripe.customers.create({
+          email:user.emailAddresses[0].emailAddress
+        });
+        
+        stripeCustomer=await db.stripeCustomer.create({
+          data:{
+            userId:user.id,
+            stripeCustomerId:customer.id
+          }
+        })
+      }
+
+
+      const sessions=await stripe.checkout.sessions.create({
+        customer:stripeCustomer.stripeCustomerId,
+        line_items,
+        mode:'payment',
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/course/${course.id}?sucess=1`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/course/${course.id}?cancel=1`,
+        metadata:{
+          courseId:course.id,
+          userId:user.id
+        }
+      })
+
 
     } 
    catch (error) {
