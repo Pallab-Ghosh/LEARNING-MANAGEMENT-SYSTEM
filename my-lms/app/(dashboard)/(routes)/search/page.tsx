@@ -2,9 +2,24 @@ import { db } from '@/lib/db'
 import React from 'react'
 import Categories from './_components/Categories'
 import { SearchInput } from '@/components/search-input'
+import { getCourse } from '@/action/get-courses'
+import { auth } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
+import CoursesList from '@/components/courses-list'
+
+type searchPageProps={
+  searchParams:{
+    title:string,
+    categoryId:string
+  }
+}
+
+const Searchpage = async({searchParams}:searchPageProps) => {
+
+  const {userId}=auth()
 
 
-const Searchpage = async() => {
+  if(!userId)return redirect('/')
 
   const categories=await db.category.findMany({
     orderBy:{
@@ -12,16 +27,16 @@ const Searchpage = async() => {
     }
   })
 
+  const courses=await getCourse({userId,...searchParams})
+
   return (
   <>
       <div className=' px-6 pt-6 md:hidden  block'>
          <SearchInput/>
       </div>
-      <div className='p-6'>
-          <Categories
-          items={categories}
-        
-          />
+      <div className='p-6 space-y-4'>
+          <Categories items={categories} />
+          <CoursesList items={courses}/>
       </div>
   </>
   )
