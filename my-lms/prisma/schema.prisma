@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch","fullTextIndex"]
 }
 
 datasource db {
@@ -30,28 +31,7 @@ model Course {
  updatedAt DateTime @updatedAt
 
  @@index([categoryId])
-}
-
-
-
-model Category{
-    id String @id @default(uuid())
-    name String @unique
-    courses Course[]
-}
-
-model Attachment{
-  id String @id @default(uuid())
-  name String
-  url String @db.Text
-
-  courseId String
-  course Course @relation(fields: [courseId] ,references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([courseId])
+ @@fulltext([title])
 }
 
 model Chapter {
@@ -76,19 +56,6 @@ model Chapter {
     @@index([courseId])
 }
 
-
-
-model MuxData{
-  id String @id @default(uuid())
-  assetId String
-  playbackId String?
-
-  chapterId String @unique
-  chapter Chapter @relation(fields: [chapterId],references: [id],onDelete: Cascade)
-
-}
-
-
 model UserProgress{
     id String @id @default(uuid())
     userId String
@@ -102,7 +69,7 @@ model UserProgress{
     updatedAt DateTime @updatedAt
 
     @@index([chapterId])
-    @@index([userId,chapterId])
+    @@unique([userId,chapterId])
 
 }
 
@@ -116,14 +83,52 @@ model Purchase{
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@unique([userId,courseId])
     @@index([courseId])
 
 }
 
 
+
+model Category{
+    id String @id @default(uuid())
+    name String @unique
+    courses Course[]
+}
+
+model Attachment{
+  id String @id @default(uuid())
+  name String
+  url String @db.Text
+
+  courseId String
+  course Course @relation(fields: [courseId] ,references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+
+
+model MuxData{
+  id String @id @default(uuid())
+  assetId String
+  playbackId String?
+
+  chapterId String @unique
+  chapter Chapter @relation(fields: [chapterId],references: [id],onDelete: Cascade)
+
+}
+
+
+
+
+
 model StripeCustomer{
     id String @id @default(uuid())
-    userId String
+    userId String @unique
     stripeCustomerId String @unique
 
     createdAt DateTime @default(now())
