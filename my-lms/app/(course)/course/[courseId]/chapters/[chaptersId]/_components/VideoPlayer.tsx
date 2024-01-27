@@ -1,12 +1,16 @@
 "use client"
 
+import { useConfettiStore } from "@/hooks/use-confetti-store"
 import { cn } from "@/lib/utils"
 import MuxPlayer from "@mux/mux-player-react"
+import axios from "axios"
 import { Loader2, Lock } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import toast from "react-hot-toast"
 
  type VideoPlayerProps={
-    chaperId:string,
+    chapterId:string,
     title:string
     courseId:string
     nextchapterId:string
@@ -15,16 +19,49 @@ import { useState } from "react"
     completeOnEnd:boolean
  }
 
-const VideoPlayer = ({ chaperId,
-    title,
-    courseId,
-    nextchapterId ,
-    playbackId ,
-    isLocked ,
-    completeOnEnd}:VideoPlayerProps) => {
+const VideoPlayer = ({ chapterId,title,courseId,nextchapterId ,playbackId ,isLocked ,completeOnEnd}:VideoPlayerProps) => {
 
         const[isready,setready]=useState(false)
-        console.log(playbackId)
+         const confetti=useConfettiStore();
+         const router=useRouter()
+        const onEnd=async()=>{
+         
+          try {
+                if(completeOnEnd)
+                {
+                      await axios.put(`/api/course/${courseId}/chapters/${chapterId}/progress`,{
+                        isCompleted:true
+                    });
+                     
+
+                     if(!nextchapterId)
+                     {
+                      confetti.onOpen();
+                      toast.success('You have successfully completed the course')
+                     }
+                        
+
+                     toast.success('Progress updated');
+                     router.refresh();
+
+                     if(nextchapterId)
+                     {
+                      router.push(`/course/${courseId}/chapters/${nextchapterId}`)
+                     }
+                      
+        
+                }
+          } 
+
+          catch (error) {
+            toast.error('Something went wrong');
+          }
+
+
+        }
+
+
+
   return (
     <div className=" relative aspect-video">
       {
@@ -52,7 +89,7 @@ const VideoPlayer = ({ chaperId,
              title={title}
              className={cn(!isready && "hidden")}
              onCanPlay={()=>setready(true)}
-             onEnded={()=>{}}
+             onEnded={onEnd}
              autoPlay
              playbackId={playbackId}
             />
