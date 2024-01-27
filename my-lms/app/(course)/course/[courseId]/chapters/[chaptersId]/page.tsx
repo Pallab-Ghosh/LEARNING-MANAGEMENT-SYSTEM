@@ -8,6 +8,7 @@ import CourseEnrollButton from './_components/course-enroll-button';
 import { Separator } from "@/components/ui/separator"
 import { Preview } from "@/components/preview"
 import Link from "next/link"
+import CourseProgrssButton from "./_components/course-progress-button"
 
 
 type ChaptersPlayepageProps={
@@ -77,7 +78,14 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
                         </h2>
                         {
                           purchase ? (
-                            <div>hello user</div>
+                            <div>
+                                <CourseProgrssButton
+                                 chapterId={params.chaptersId}
+                                 courseId={params.courseId}
+                                 nextChapterId={nextChapter?.id!}
+                                 isCompleted={!!userProgress?.isCompleted}
+                                />
+                              </div>
                           ):
                           (
                               <CourseEnrollButton
