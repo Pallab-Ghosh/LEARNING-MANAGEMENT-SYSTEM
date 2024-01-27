@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from '@/components/ui/button';
 import { useConfettiStore } from '@/hooks/use-confetti-store';
 import axios from 'axios';
@@ -24,26 +26,28 @@ const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted}:Cour
     const onclick=async()=>{
        try 
        {
-        setloading(true)
-         await axios.put(`/api/course/${courseId}/chapters/${chapterId}/progress`,{
-            isCompleted:!isCompleted
-         });
+                    setloading(true)
+                    await axios.put(`/api/course/${courseId}/chapters/${chapterId}/progress`,{
+                        isCompleted:!isCompleted
+                    });
 
-         if(!isCompleted && !nextChapterId)
-         {
-            confetti.onOpen();
-         }
+                    if(!isCompleted && !nextChapterId)//in video !isCompleted
+                        {
+                            confetti.onOpen();
+                        }
 
-         if(!isCompleted && nextChapterId)
-         {
-            router.push(`/coure/${courseId}/chapters/${nextChapterId}`)
-         }
+                    if(!isCompleted && nextChapterId)//in video !isCompleted
+                        {
+                            router.push(`/course/${courseId}/chapters/${nextChapterId}`)
+                        }
 
-         toast.success('Progress updated');
-         router.refresh();
+                    toast.success('Progress updated');
+                    router.refresh();
        }
+
+
        catch (error) {
-         toast.error('Something wentb wrong');
+         toast.error('Something went wrong');
        }
        finally{
         setloading(false)
@@ -53,12 +57,13 @@ const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted}:Cour
     return (
     <Button
      type='button'
+     disabled={isloading}
      variant={isCompleted ? 'outline' :'success'}
      className=' w-full  md:ml-auto'
-    
+     onClick={onclick}
     >
          {
-            isCompleted ? 'Not Completed' : 'Mark as Complete'
+            isCompleted ? 'Completed' : 'Mark as Complete'
          }
          <Icon className='h-4 w-4 ml-2'/>
         </Button>
