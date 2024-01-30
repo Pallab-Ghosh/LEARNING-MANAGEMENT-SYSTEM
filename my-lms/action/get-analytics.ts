@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { Course, Purchase } from "@prisma/client";
 
 
@@ -19,6 +20,34 @@ const groupByCourse=(purchases :PurchaseWithCourse[])=>{
     })
     return grouped;
 
+}
+
+export const getAnalytics=async(userId:string)=>{
+
+     try 
+     {
+        const purchases=await db.purchase.findMany({
+            where:{
+                course:{
+                    userId
+                }
+            },
+            include:{
+                course:true
+            }
+        })
+
+        const groupedEarnings=groupByCourse(purchases);
+        
+     }
+      catch (error) {
+        console.log("[GET_ANALYTICS]",error)
+        return{
+            data:[],
+            totalReveneu :0,
+            totalSales: 0
+        }
+     }
 }
 
 
