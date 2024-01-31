@@ -43,6 +43,13 @@ export const getAnalytics=async(userId:string)=>{
             name: courseTitle, 
             total: Total
           }));
+
+          const totalrevenue=data.reduce((acc , curr) => acc + curr.total,0)
+          const totalSales=purchases.length;
+
+          return {
+            data,totalrevenue,totalSales
+          }
      }
 
 
