@@ -36,10 +36,16 @@ export const getAnalytics=async(userId:string)=>{
                 course:true
             }
         })
+        console.log('purchases',purchases)
 
         const groupedEarnings=groupByCourse(purchases);
-        
+        const data = Object.entries(groupedEarnings).map(( [courseTitle, Total] ) => ({
+            name: courseTitle, 
+            total: Total
+          }));
      }
+
+
       catch (error) {
         console.log("[GET_ANALYTICS]",error)
         return{
@@ -48,6 +54,8 @@ export const getAnalytics=async(userId:string)=>{
             totalSales: 0
         }
      }
+
+
 }
 
 
