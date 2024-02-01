@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { isTeacher } from "@/lib/teacher"
 import { auth } from "@clerk/nextjs"
 import Mux from "@mux/mux-node"
 import { NextResponse } from "next/server"
@@ -20,7 +21,7 @@ export async function DELETE(req:Request,{params}:params_type)
     try {
         const {userId}=auth();
         const {courseid}=params;
-        if(!userId)
+        if(!userId || isTeacher(userId))
         {
             return new NextResponse('Unauthorized',{status:401})
         }
@@ -81,7 +82,7 @@ export async function PATCH(req:Request,{params}:params_type)
         const {courseid}=params;
         const values=await req.json();
 
-        if(!userId){
+        if(!userId || isTeacher(userId)){
             return new NextResponse('Unauthorized',{status:401})
         }
 
