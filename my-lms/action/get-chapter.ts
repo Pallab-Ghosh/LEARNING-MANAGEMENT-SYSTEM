@@ -26,7 +26,8 @@ export const getChapter=async({userId,courseId,chapterId}:GetChapterProps)=>{
                 id:courseId
             },
             select:{
-                price:true
+                price:true,
+                title:true
             }
          })
 
@@ -90,11 +91,14 @@ export const getChapter=async({userId,courseId,chapterId}:GetChapterProps)=>{
 
          return {chapter,course,muxdata,attachments,nextChapter,userProgress,purchase}
     }
-    catch (error) {
+
+    catch (error)
+     {
      console.log("[Get_Chapter]",error);
      return{
-        chapter:null,course:null,muxData:null,Attachment:[],nextChapter:null,userProgress:null,purchase:null
+        chapter:null,course:null,muxData:null,Attachment:[],nextChapter:null,userProgress:null,purchase:null,title:null
      }
    }
+
 
 }
