@@ -48,20 +48,22 @@ const CourseCertificate = ({chapterId,courseId,nextChapterId,isCompleted,courseN
 
 
     return (
-      <div>
+      <div className=' h-full w-full bg-neutral-200'>
          {
          showCertificate && (
-            <div id="certificate" className={cn(!isCompleted && 'hidden')}>
+            <div id="certificate" className={cn(!isCompleted && 'hidden',' h-96 flex items-center w-full')}>
                     <Certificate 
                     username={userId!} 
-                    courseName={courseName} />
+                    courseName={courseName}
+                    
+                    />
             </div>
           )}
 
          
           
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-              <Link href="#" onClick={handleDownloadCertificate}>
+            <div className=' flex border-double border-y-pink-950 items-center justify-center  h-10 w-full text-center'>
+              <Link href="#" role="button" onClick={handleDownloadCertificate} className="text-lg font-bold">
                  Download Certificate
               </Link>
            </div>
