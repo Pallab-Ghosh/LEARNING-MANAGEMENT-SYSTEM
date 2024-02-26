@@ -1,7 +1,8 @@
+ 
 import { getChapter } from "@/action/get-chapter"
 import { db } from "@/lib/db"
-import { auth } from "@clerk/nextjs"
-import { AlertTriangle, ArrowRight, ArrowRightCircle, CheckCircle, File } from "lucide-react"
+import { auth, useAuth } from "@clerk/nextjs"
+import { AlertTriangle, ArrowRight, ArrowRightCircle, CheckCircle, File, Home, Link2 } from "lucide-react"
 import { redirect } from "next/navigation"
 import VideoPlayer from "./_components/VideoPlayer"
 import CourseEnrollButton from './_components/course-enroll-button';
@@ -10,6 +11,8 @@ import { Preview } from "@/components/preview"
 import Link from "next/link"
 import CourseProgrssButton from "./_components/course-progress-button"
 import CourseCertificate from "./_components/course-certificate"
+import { getProgress } from "@/action/get-progress"
+import { Button } from "@/components/ui/button"
  
  
 
@@ -30,7 +33,9 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
 
 
    const{chapter,course,muxdata,attachments,nextChapter,userProgress,purchase}=await getChapter({userId:userId,courseId:params.courseId,chapterId:params.chaptersId})
-   
+   const progress=await getProgress({userId:userId!, courseId:params.courseId})
+ 
+
    if(!chapter || !course)
    {
     console.log('chapter or course not found')
@@ -38,9 +43,8 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
    }
 
    const isLocked=!chapter.isFree && !purchase
-   console.log('userProgress?.isCompleted',userProgress?.isCompleted)
    const completeOnEnd=!!purchase && !userProgress?.isCompleted
-   
+  
 
 
   return (
@@ -91,6 +95,7 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
                                  courseId={params.courseId}
                                  nextChapterId={nextChapter?.id!}
                                  isCompleted={!!userProgress?.isCompleted}
+                                  progress={progress}
                                 />
                               </div>
                           ):
@@ -136,16 +141,28 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
                }
                <div>
                   <Separator/>
-                  
+                
+                      <div className=" w-full h-12 mb-3 flex justify-center items-center bg-slate-900 text-gray-200" >
+                            <Link href='/' role="button" className=" flex">
+                              <Home className="mr-2"  />
+                              Back to Home Page
+                            </Link>
+                      </div>
+                    
+              
                   
                     {
-                    (userProgress?.isCompleted! && !nextChapter?.id)? (<CourseCertificate
-                   chapterId={params.chaptersId}
-                   courseId={params.courseId}
-                   nextChapterId={nextChapter?.id!}
-                   isCompleted={!!userProgress?.isCompleted}
-                   courseName={course.title}
-                  />):null
+                    (
+                      userProgress?.isCompleted!  && progress===100) ?
+                       (
+                       <CourseCertificate
+                          chapterId={params.chaptersId}
+                          courseId={params.courseId}
+                          nextChapterId={nextChapter?.id!}
+                          isCompleted={!!userProgress?.isCompleted}
+                          courseName={course.title}
+                      />
+                      ):null
                     }
                </div>
           
