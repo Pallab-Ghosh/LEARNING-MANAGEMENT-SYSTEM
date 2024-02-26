@@ -1,7 +1,10 @@
 "use client"
 
+import { getProgress } from '@/action/get-progress';
 import { Button } from '@/components/ui/button';
 import { useConfettiStore } from '@/hooks/use-confetti-store';
+ 
+import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -13,25 +16,32 @@ type CourseProgrssButtonProps={
     chapterId:string,
     courseId:string,
     nextChapterId :string,
-    isCompleted:boolean
+    isCompleted:boolean,
+    progress:number
 }
-const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted}:CourseProgrssButtonProps) => {
+const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted,progress}:CourseProgrssButtonProps) => {
   
     const Icon=isCompleted ? XCircle : CheckCircle
 
     const router=useRouter()
     const confetti=useConfettiStore();
     const[isloading,setloading]=useState(false)
+    const {userId}=useAuth()
+    
+ 
 
     const onclick=async()=>{
        try 
        {
+                 
                     setloading(true)
                     await axios.put(`/api/course/${courseId}/chapters/${chapterId}/progress`,{
                         isCompleted:!isCompleted
                     });
+                     
+                   
 
-                    if(!isCompleted && !nextChapterId)//in video !isCompleted
+                    if(!isCompleted && !nextChapterId )//in video !isCompleted
                         {
                             confetti.onOpen();
                         }
@@ -43,6 +53,7 @@ const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted}:Cour
 
                     toast.success('Progress updated');
                     router.refresh();
+                   
        }
 
 
@@ -59,7 +70,7 @@ const CourseProgrssButton = ({chapterId,courseId,nextChapterId,isCompleted}:Cour
      type='button'
      disabled={isloading}
      variant={isCompleted ? 'outline' :'success'}
-     className=' w-full  md:ml-auto'
+     className=' w-full text-gray-200 md:ml-auto bg-blue-500 transition ease-in-out duration-150 delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500  hover:text-slate-200'
      onClick={onclick}
     >
          {
