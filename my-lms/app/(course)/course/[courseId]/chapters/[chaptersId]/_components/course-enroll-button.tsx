@@ -31,7 +31,7 @@ const  CourseEnrollButton = ({price,courseId}:CourseEnrollButtonProps) => {
   
   return (
     <Button
-    className=" w-full md:w-auto"
+    className=" w-full md:w-auto transition ease-in-out duration-150 delay-150 hover:-translate-y-1 hover:scale-110"
     size="sm"
     onClick={onclick}
     disabled={isloading}
