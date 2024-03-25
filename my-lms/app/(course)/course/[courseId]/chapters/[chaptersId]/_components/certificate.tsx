@@ -1,3 +1,5 @@
+
+
 import Image from 'next/image';
 import React from 'react';
 
@@ -8,16 +10,18 @@ type CertificateProps={
 }
 const Certificate = ({ username, courseName }:CertificateProps) => {
   return (
-    <div className= 'bg-slate-50 w-full flex flex-col m-2 h-full border-double border-x-4 border-y-4 border-teal-900 '>
+    <div className= 'bg-slate-50 lg:w-full lg:h-full h-full w-96 p-5 flex flex-col m-2  border-double border-x-4 border-y-4 border-teal-900 relative'>
 
-         <Image src="/logo.svg"   alt="Logo"  width={50}  height={20}  />
+        <div className=' mt-0'>
+           <Image src="/logo.svg" alt="Logo"  width={50}  height={20}/>
+        </div>
 
-        <div className=' flex flex-col justify-center mt-8'>
+        <div className='flex flex-col justify-center mt-1'>
              <h1 className=' text-center text-teal-500 font-extrabold -m-2 text-lg'>Skill</h1>
              <h1 className=' text-center text-blue-900 font-extrabold text-lg'>Learning</h1>
         </div>
 
-        <div className=' p-3'>
+        <div className='mt-1'>
             <h1 className=' pt-6 font-bold  text-gray-700 text-center justify-center'>
               Certificate of Completion
               </h1>
