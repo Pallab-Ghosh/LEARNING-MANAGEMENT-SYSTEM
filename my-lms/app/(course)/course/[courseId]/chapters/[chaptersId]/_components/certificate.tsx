@@ -10,13 +10,13 @@ type CertificateProps={
 }
 const Certificate = ({ username, courseName }:CertificateProps) => {
   return (
-    <div className= 'bg-slate-50 lg:w-full lg:h-full h-96 w-96 p-5 flex flex-col   m-auto  border-double border-x-4 border-y-4 border-teal-900 relative'>
+    <div className= 'bg-slate-50 lg:w-80 lg:h-full h-96 w-96 p-5 flex flex-col   m-auto  border-double border-x-4 border-y-4 border-teal-900 relative'>
 
         <div className=' absolute mt-0'>
            <Image src="/logo.svg" alt="Logo"  width={70}  height={40}/>
         </div>
 
-        <div className='flex flex-col justify-center mt-1'>
+        <div className='flex flex-col justify-center mt-12'>
              <h1 className=' text-center text-teal-500 font-extrabold -m-2 text-lg'>Skill</h1>
              <h1 className=' text-center text-blue-900 font-extrabold text-lg'>Learning</h1>
         </div>
@@ -29,7 +29,7 @@ const Certificate = ({ username, courseName }:CertificateProps) => {
 
          <div className='mt-4 whitespace-normal flex justify-center'>
               <h3 className='text-gray-700 '>
-              This is to certify that {username} has successfully completed the course <br/> <span className=' font-extrabold text-rose-900'>{courseName}</span></h3>
+              This is to certify that <span className='text-muted-foreground'>{username} </span>has successfully completed the course  <span className=' font-extrabold text-rose-900'>{courseName}</span>.</h3>
          </div>
 
          <div className=' flex flex-col justify-center font-bold pt-5'>
@@ -38,7 +38,7 @@ const Certificate = ({ username, courseName }:CertificateProps) => {
         </div>
       
 
-      <div className='mt-3 pb-2  flex justify-end' >
+      <div className='flex justify-end mt-4' >
              <h3 className='underline decoration-slate-900 mr-2'>Pallab Ghosh</h3>
       </div>
     </div>
