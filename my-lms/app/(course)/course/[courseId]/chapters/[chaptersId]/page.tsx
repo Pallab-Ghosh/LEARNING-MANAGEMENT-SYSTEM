@@ -14,6 +14,7 @@ import CourseCertificate from "./_components/course-certificate"
 import { getProgress } from "@/action/get-progress"
 import { Button } from "@/components/ui/button"
  
+import { currentUser } from '@clerk/nextjs';
  
 
 
@@ -29,8 +30,9 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
  const {userId}=auth();
 
  if(!userId)return redirect('/');
-   
-
+ 
+  const current_user_object = await currentUser();
+  const current_user = `${current_user_object?.firstName} ${current_user_object?.lastName}`
 
    const{chapter,course,muxdata,attachments,nextChapter,userProgress,purchase}=await getChapter({userId:userId,courseId:params.courseId,chapterId:params.chaptersId})
    const progress=await getProgress({userId:userId!, courseId:params.courseId})
@@ -161,6 +163,7 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
                           nextChapterId={nextChapter?.id!}
                           isCompleted={!!userProgress?.isCompleted}
                           courseName={course.title}
+                          current_user = {current_user!}
                       />
                       ):null
                     }
