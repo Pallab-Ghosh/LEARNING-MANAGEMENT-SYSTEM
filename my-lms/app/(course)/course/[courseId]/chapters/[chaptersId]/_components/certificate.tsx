@@ -7,10 +7,11 @@ import React from 'react';
 type CertificateProps={
     username:string,
     courseName:string
+    user_credential_Id : string
 }
-const Certificate = ({ username, courseName }:CertificateProps) => {
+const Certificate = ({ username, courseName , user_credential_Id}:CertificateProps) => {
   return (
-    <div className= 'bg-slate-50 lg:w-80 lg:h-full h-96 w-96 p-5 flex flex-col   m-auto  border-double border-x-4 border-y-4 border-teal-900 relative'>
+    <div className= 'bg-slate-50   lg:h-full h-96 w-full p-5 flex flex-col   m-auto  border-double border-x-4 border-y-4 border-teal-900 relative'>
 
         <div className=' absolute mt-0'>
            <Image src="/logo.svg" alt="Logo"  width={70}  height={40}/>
@@ -38,8 +39,8 @@ const Certificate = ({ username, courseName }:CertificateProps) => {
         </div>
       
 
-      <div className='flex justify-end mt-4' >
-             <h3 className='underline decoration-slate-900 mr-2'>Pallab Ghosh</h3>
+      <div className='flex justify-end mt-4 mr-0' >
+             <div className=' w-72 h-8 flex items-center  bg-slate-100 text-black mr-2 text-xs border  rounded-lg'><span className='text-xs'>UId</span>: {user_credential_Id}</div>
       </div>
     </div>
   );
