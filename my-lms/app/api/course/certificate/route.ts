@@ -9,8 +9,8 @@ export async function POST(req:Request,params:{params:string})
 {
   try {
     const{userId}=auth();
-    const{courseId , credential_Id}=await req.json();
-    console.log('credential_Id in server from client',credential_Id)
+    const{courseId}=await req.json();
+  
 
     if(!userId)
     {
@@ -26,18 +26,23 @@ export async function POST(req:Request,params:{params:string})
 
     if(has_Certificate?.credentialId)
     {
-        return NextResponse.json(has_Certificate.credentialId)
+      //console.log("has certi",has_Certificate)
+        return NextResponse.json(has_Certificate)
+    }
+    else
+    {
+            const  newCertificate=await db.userCertificate.create({
+              data:{
+                      userId, 
+                      courseId :courseId 
+                   }
+             });
+           return NextResponse.json(newCertificate)
     }
   
-    const  newCertificate=await db.userCertificate.create({
-        data:{
-                userId, 
-                credentialId :credential_Id,
-                courseId :courseId 
-        }
-    });
+  
     
-    return NextResponse.json(newCertificate)
+  
 
 
   } 
