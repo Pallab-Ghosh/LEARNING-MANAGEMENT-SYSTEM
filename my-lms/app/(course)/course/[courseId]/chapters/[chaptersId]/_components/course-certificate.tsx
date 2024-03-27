@@ -8,11 +8,10 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { jsPDF } from 'jspdf'; 
 import html2canvas from 'html2canvas';
-import { Loader } from 'lucide-react';
+import { Download, Loader, Loader2, Loader2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { string } from 'zod';
-const { v4: uuidv4 } = require('uuid');
+ 
 
 
 type CourseCertificateProps = {
@@ -28,10 +27,10 @@ const CourseCertificate = ({ chapterId, courseId, nextChapterId, isCompleted, co
 
 
     const router = useRouter();
-    const [isloading, setloading] = useState(false);
     const { userId } = useAuth();
     const licenseCertficateProp = useRef<HTMLDivElement>(null);
     const [isReady , setReady]=useState(false)
+    const [isloading, setloading] = useState(false);
     const [user_credential_Id , set_user_credential_Id]=useState('')
     
     
@@ -39,17 +38,14 @@ const CourseCertificate = ({ chapterId, courseId, nextChapterId, isCompleted, co
 
     const handleDownloadCertificate = async () => {
 
-        let credential_Id :string = uuidv4();
-        set_user_credential_Id(credential_Id);
-
-        setloading(true)
+           setloading(true)
 
            const certificate = await axios.post(`/api/course/certificate`,{
               courseId:courseId,
-              credential_Id : credential_Id
            })
-
-         console.log("certificate object" , certificate)
+           const ID = certificate.data.credentialId
+           set_user_credential_Id(ID)
+      
            if(certificate.data.credentialId!='')
            {
                     const inputData = licenseCertficateProp.current;
@@ -70,7 +66,7 @@ const CourseCertificate = ({ chapterId, courseId, nextChapterId, isCompleted, co
                             const width = pdf.internal.pageSize.getWidth();
                             const height = (canvas.height * width) / canvas.width;
             
-                            pdf.addImage(imgdata, "PNG", 0, 0, width, height);
+                            pdf.addImage(imgdata, "PNG", 0, 94, width, height);
                             pdf.save("License.pdf");
                         } 
                         catch (error) {
@@ -103,10 +99,28 @@ const CourseCertificate = ({ chapterId, courseId, nextChapterId, isCompleted, co
                         </div>
            }
 
+
+
             <div className='flex border-double border-y-pink-950 items-center justify-center h-12 w-full text-center'>
-                <Button disabled={isloading}  onClick={handleDownloadCertificate} className="text-lg font-bold">
-                    Download Certificate
-                </Button>
+                {
+                    isloading ? (
+                        <Button disabled={isloading}
+                        onClick={handleDownloadCertificate} 
+                        className="text-lg font-bold bg-blue-500"
+                        >
+                          <Loader2Icon className=' animate-spin h-5 w-5 mr-3 '/>
+                          Processing..
+                      </Button>
+                    ) : (
+                        <Button disabled={isloading}
+                        onClick={handleDownloadCertificate} 
+                        className="text-lg font-bold bg-blue-500"
+                        >
+                          <Download className=' animate-bounce h-5 w-5 mr-3 '/>
+                          Download Certificate
+                      </Button>
+                        )
+                }
             </div>
         </div>
     );
