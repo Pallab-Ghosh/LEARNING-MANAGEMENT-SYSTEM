@@ -30,6 +30,8 @@ const is_CurrentUser_Teacher=isTeacher(userId)
         </div>
        )
      }
+ 
+
     <div className='flex gap-x-2 ml-auto'>
         {
             isTeacherPage || isPlayerPage ?
@@ -55,6 +57,7 @@ const is_CurrentUser_Teacher=isTeacher(userId)
         afterSignOutUrl='/'
         />
     </div>
+           
     </>
   )
 }

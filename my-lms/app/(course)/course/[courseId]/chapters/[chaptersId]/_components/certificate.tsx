@@ -11,7 +11,7 @@ type CertificateProps={
 }
 const Certificate = ({ username, courseName , user_credential_Id}:CertificateProps) => {
   return (
-    <div className= 'bg-slate-50   lg:h-full h-96 w-full p-5 flex flex-col   m-auto  border-double border-x-4 border-y-4 border-teal-900 relative'>
+    <div className= ' bg-sky-100 lg:h-full h-96 w-full p-5 flex flex-col m-auto border-double border-8 border-amber-400 relative'>
 
         <div className=' absolute mt-0'>
            <Image src="/logo.svg" alt="Logo"  width={70}  height={40}/>
@@ -23,14 +23,14 @@ const Certificate = ({ username, courseName , user_credential_Id}:CertificatePro
         </div>
 
         <div className='mt-2'>
-             <p className='font-bold  text-gray-700 text-center justify-center'>
+             <p className='underline decoration-double font-extrabold text-xl text-yellow-500 text-center justify-center'>
               Certificate of Completion
               </p>
         </div>
 
          <div className='mt-4 whitespace-normal flex justify-center'>
-              <h3 className='text-gray-700 '>
-              This is to certify that <span className='text-muted-foreground'>{username} </span>has successfully completed the course  <span className=' font-extrabold text-rose-900'>{courseName}</span>.</h3>
+              <h3 className='text-gray-800 font-bold'>
+              This is to certify that <span className=' text-indigo-950 underline'>{username} </span>has successfully completed the course  <span className=' font-extrabold text-rose-900'>{courseName}</span> from our organization.</h3>
          </div>
 
          <div className=' flex flex-col justify-center font-bold pt-5'>
