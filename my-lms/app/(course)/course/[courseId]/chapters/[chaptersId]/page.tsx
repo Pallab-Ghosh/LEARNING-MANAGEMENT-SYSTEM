@@ -144,12 +144,14 @@ const ChaptersPlayerpage = async({params}:ChaptersPlayepageProps)=> {
                <div>
                   <Separator/>
                 
-                      <div className=" w-full h-12 mb-3 flex justify-center items-center bg-slate-900 text-gray-200" >
-                            <Link href='/' role="button" className=" flex">
-                              <Home className="mr-2"  />
-                              Back to Home Page
-                            </Link>
-                      </div>
+                     <div className=" flex justify-center"> 
+                        <div className=" w-64 border rounded-lg h-12 mb-3 flex justify-center items-center bg-red-500 text-gray-200" >
+                                  <Link href='/' role="button" className=" flex justify-center">
+                                    <Home className="mr-2"  />
+                                        Back to Home Page
+                                  </Link>
+                          </div>
+                     </div>
                     
               
                   
