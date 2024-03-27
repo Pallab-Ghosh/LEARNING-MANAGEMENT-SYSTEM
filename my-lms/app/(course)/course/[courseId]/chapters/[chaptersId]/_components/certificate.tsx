@@ -40,7 +40,7 @@ const Certificate = ({ username, courseName , user_credential_Id}:CertificatePro
       
 
       <div className='flex justify-end mt-4 mr-0' >
-             <div className=' w-72 h-8 flex items-center  bg-slate-100 text-black mr-2 text-xs border  rounded-lg'><span className='text-xs'>UId</span>: {user_credential_Id}</div>
+             <div className=' w-72 h-8 flex items-center justify-center bg-slate-200 text-black mr-2 text-xs border  rounded-lg'><span className='text-xs'>UId</span>: {user_credential_Id}</div>
       </div>
     </div>
   );
