@@ -126,29 +126,29 @@ To run this project, you will need to add the following environment variables to
 
  # LEARNING-MANAGEMENT-SYSTEM
 
-Login Page
+**Login Page**
 
 ![Screenshot 2024-07-29 182139](https://github.com/user-attachments/assets/d0788ad7-127b-49cd-b576-d2f6ce8bd663)
 
-Dashboard Page
+**Dashboard Page**
 
 ![Screenshot 2024-07-29 182238](https://github.com/user-attachments/assets/eb8f1d1c-392f-4898-a847-60da75075ba2)
 
 
-Chapter page and attachments Page
+**Chapter page and attachments Page**
 
 ![Screenshot 2024-07-29 182849](https://github.com/user-attachments/assets/a809fa89-088f-44c2-ae66-900568aa591a)
 
-Course Creation and Existing Chapters Page
+**Course Creation and Existing Chapters Page**
 
 ![Screenshot 2024-07-29 182315](https://github.com/user-attachments/assets/edcd55e5-850c-4c8f-9220-b631c697b3db)
 
 
-Course Creation Page
+**Course Creation Page**
 
 ![Screenshot 2024-07-29 182500](https://github.com/user-attachments/assets/d0d1b45b-a6a0-4685-a35f-231edd0a2256)
 
- Course Updation Page
+ **Course Updation Page**
  
  ![Screenshot 2024-07-29 182400](https://github.com/user-attachments/assets/fc7dd024-036d-4a32-85fa-9bc3b9741491)
 
@@ -156,30 +156,30 @@ Course Creation Page
 ![Screenshot 2024-07-29 182419](https://github.com/user-attachments/assets/5cac6133-1af4-4406-a87b-e5c353bc8df0)
 
 
-Chapter creation Page
+**Chapter creation Page**
 
 ![Screenshot 2024-07-29 203606](https://github.com/user-attachments/assets/cdc59c6b-82db-49d7-9c64-2d28773acaf8)
 
 
-Mobile Views
+# Mobile Views
 
-Dashboard Page
+**Dashboard Page**
 
 ![Webp net-resizeimage](https://github.com/user-attachments/assets/858b0ea1-9762-4a17-8f78-fdb81748d3eb)
 
-Dashboard Routes
+**Dashboard Routes**
 
 ![Webp net-resizeimage (1)](https://github.com/user-attachments/assets/08dd6fad-ddff-4b26-ae55-b737d7ee7c58)
 
-Chapter Page
+**Chapter Page**
 
 ![Webp net-resizeimage (6)](https://github.com/user-attachments/assets/e5fd4450-394d-44f9-822f-83a8a75be6be)
 
-Chapter Routes
+**Chapter Routes**
 
 ![Webp net-resizeimage (3)](https://github.com/user-attachments/assets/d38f59fe-1f43-4e5f-9a0b-2b94f968eca9)
 
-Course Completion Certificate
+**Course Completion Certificate**
 
 ![Webp net-resizeimage (5)](https://github.com/user-attachments/assets/d165a107-f73a-49b4-8af6-e3868b6e4b37)
 
