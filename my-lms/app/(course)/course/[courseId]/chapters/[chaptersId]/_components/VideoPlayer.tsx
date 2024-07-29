@@ -24,6 +24,8 @@ const VideoPlayer = ({ chapterId,title,courseId,nextchapterId ,playbackId ,isLoc
         const[isready,setready]=useState(false)
          const confetti=useConfettiStore();
          const router=useRouter()
+
+         
         const onEnd=async()=>{
          
           try {
@@ -68,6 +70,7 @@ const VideoPlayer = ({ chapterId,title,courseId,nextchapterId ,playbackId ,isLoc
         !isready && !isLocked && (
             <div className=" absolute inset-0 flex items-center justify-center bg-slate-400">
                <Loader2 className=" h-8 w-8 animate-spin text-secondary"/>
+               
             </div>
         )
       }
@@ -90,7 +93,7 @@ const VideoPlayer = ({ chapterId,title,courseId,nextchapterId ,playbackId ,isLoc
              className={cn(!isready && "hidden")}
              onCanPlay={()=>setready(true)}
              onEnded={onEnd}
-             autoPlay
+             
              playbackId={playbackId}
             />
         )
