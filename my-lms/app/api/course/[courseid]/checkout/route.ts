@@ -83,10 +83,10 @@ type params_props = {
       customer: stripeCustomer.stripeCustomerId,
       line_items,
       mode: 'payment',
-     /*  billing_address_collection: 'auto',
+      billing_address_collection: 'auto',
       shipping_address_collection: {
-        allowed_countries: ['IN'],
-      }, */
+        allowed_countries: ['US'],
+      }, 
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/course/${course.id}?success=1`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/course/${course.id}?cancel=1`,
       metadata: {
