@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({  columns,  data,}: DataTableProps<TDa
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full"
         />
 
         <div>
